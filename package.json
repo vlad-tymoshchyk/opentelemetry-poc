@@ -13,6 +13,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:zipkin": "java -jar zipkin/zipkin.jar",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
