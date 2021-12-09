@@ -1,23 +1,40 @@
-import logo from './logo.svg';
+import { useState, useEffect } from 'react';
+import { getSessionId, submit } from './api';
 import './App.css';
 
 function App() {
+  const [sessionId, setSessionId] = useState('');
+  const [authnToken, setAuthnToken] = useState('');
+  const [store, setStore] = useState({ username: '' });
+
+  useEffect(() => {
+    getSessionId().then((id) => setSessionId(id));
+  }, [setSessionId]);
+
+  const handleChange = (e) => {
+    setStore({ ...store, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = () => {
+    submit(store).then((token) => setAuthnToken(token));
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>session ID: {sessionId}</div>
+      <div>
+        <input
+          type="text"
+          name="username"
+          value={store.username}
+          onChange={handleChange}
+          disabled={!sessionId}
+        />
+        <button onClick={onSubmit} disabled={!sessionId}>
+          {sessionId ? 'Submit username' : 'Creating session'}
+        </button>
+      </div>
+      <div>authnToken: {authnToken}</div>
     </div>
   );
 }
