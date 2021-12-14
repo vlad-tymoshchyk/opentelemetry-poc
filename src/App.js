@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { getSessionId, submit } from './api';
 import './App.css';
 
+import './tracing';
+
 function App() {
   const [sessionId, setSessionId] = useState('');
   const [authnToken, setAuthnToken] = useState('');
